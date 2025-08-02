@@ -1,68 +1,3 @@
-# # services:
-# #   - type: web
-# #     name: dolibarr-web
-# #     env: docker
-# #     dockerfilePath: ./dockerfiles/web.Dockerfile
-# #     plan: free
-# #     envVars:
-# #       - key: DOLI_DB_HOST
-# #         value: dolibarr-db:3306
-# #       - key: DOLI_DB_NAME
-# #         value: dolibarr
-# #       - key: DOLI_DB_USER
-# #         value: dolibarr
-# #       - key: DOLI_DB_PASSWORD
-# #         value: dolibarr
-# #       - key: DOLI_NO_CSRF_CHECK
-# #         value: "1"
-# #     disks:
-# #       - name: html
-# #         mountPath: /var/www/html
-# #         sizeGB: 1
-# #       - name: documents
-# #         mountPath: /var/lib/dolibarr/documents
-# #         sizeGB: 1
-
-# #   - type: pserv
-# #     name: dolibarr-db
-# #     env: docker
-# #     dockerfilePath: ./dockerfiles/mariadb.Dockerfile
-# #     plan: free
-# #     autoDeploy: false
-# #     disk:
-# #       name: mariadb-data
-# #       mountPath: /var/lib/mysql
-# #       sizeGB: 1
-# services:
-#   - type: web
-#     name: dolibarr-web
-#     env: docker
-#     dockerfilePath: ./dockerfiles/web.Dockerfile
-#     plan: free
-#     envVars:
-#       - key: DOLI_DB_HOST
-#         value: dolibarr-db:3306
-#       - key: DOLI_DB_NAME
-#         value: dolibarr
-#       - key: DOLI_DB_USER
-#         value: dolibarr
-#       - key: DOLI_DB_PASSWORD
-#         value: dolibarr
-#       - key: DOLI_NO_CSRF_CHECK
-#         value: "1"
-#     domains:
-#       - https://dolibarr-web.onrender.com
-
-#   - type: pserv
-#     name: dolibarr-db
-#     env: docker
-#     dockerfilePath: ./dockerfiles/mariadb.Dockerfile
-#     plan: free
-#     autoDeploy: false
-#     disk:
-#       name: db-data
-#       mountPath: /var/lib/mysql
-#       sizeGB: 1
 services:
   - type: web
     name: dolibarr-web
@@ -71,30 +6,22 @@ services:
     plan: free
     envVars:
       - key: DOLI_DB_HOST
-        value: dolibarr-db:3306 
+        value: YOUR_DB_HOST_URL
       - key: DOLI_DB_NAME
         value: dolibarr
       - key: DOLI_DB_USER
-        value: dolibarr
+        value: doliuser
       - key: DOLI_DB_PASSWORD
-        value: dolibarr
+        value: dolipass
+      - key: DOLI_ADMIN_LOGIN
+        value: admin
+      - key: DOLI_ADMIN_PASSWORD
+        value: adminpass
+      - key: DOLI_URL_ROOT
+        value: https://dolibarr-web.onrender.com
+      - key: PHP_INI_DATE_TIMEZONE
+        value: Europe/Paris
+      - key: DOLI_INSTALL_AUTO
+        value: "1"
       - key: DOLI_NO_CSRF_CHECK
         value: "1"
-    disks:
-      - name: html
-        mountPath: /var/www/html
-        sizeGB: 1
-      - name: documents
-        mountPath: /var/lib/dolibarr/documents
-        sizeGB: 1
-
-  - type: pserv
-    name: dolibarr-db
-    env: docker
-    dockerfilePath: ./dockerfiles/mariadb.Dockerfile
-    plan: free
-    autoDeploy: false
-    disk:
-      name: mariadb-data
-      mountPath: /var/lib/mysql
-      sizeGB: 1
