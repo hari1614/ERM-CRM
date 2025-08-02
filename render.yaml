@@ -4,10 +4,6 @@ services:
     env: docker
     dockerfilePath: ./dockerfiles/mariadb.Dockerfile
     plan: free
-    disk:
-      name: mariadb-data
-      mountPath: /var/lib/mysql
-      sizeGB: 1
     envVars:
       - key: MYSQL_ROOT_PASSWORD
         value: rootpass
@@ -44,4 +40,3 @@ services:
         value: "1"
       - key: DOLI_NO_CSRF_CHECK
         value: "1"
-
