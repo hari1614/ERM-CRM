@@ -44,10 +44,4 @@ services:
         value: "1"
       - key: DOLI_NO_CSRF_CHECK
         value: "1"
-    disks:
-      - name: html
-        mountPath: /var/www/html/custom
-        sizeGB: 1
-      - name: documents
-        mountPath: /var/www/documents
-        sizeGB: 1
+
