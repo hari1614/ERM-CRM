@@ -1,4 +1,23 @@
 services:
+  - type: pserv
+    name: dolibarr-db
+    env: docker
+    dockerfilePath: ./dockerfiles/mariadb.Dockerfile
+    plan: free
+    disk:
+      name: mariadb-data
+      mountPath: /var/lib/mysql
+      sizeGB: 1
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        value: rootpass
+      - key: MYSQL_DATABASE
+        value: dolibarr
+      - key: MYSQL_USER
+        value: doliuser
+      - key: MYSQL_PASSWORD
+        value: dolipass
+
   - type: web
     name: dolibarr-web
     env: docker
@@ -10,26 +29,25 @@ services:
       - key: DOLI_DB_NAME
         value: dolibarr
       - key: DOLI_DB_USER
-        value: dolibarr
+        value: doliuser
       - key: DOLI_DB_PASSWORD
-        value: dolibarr
+        value: dolipass
+      - key: DOLI_ADMIN_LOGIN
+        value: admin
+      - key: DOLI_ADMIN_PASSWORD
+        value: adminpass
+      - key: DOLI_URL_ROOT
+        value: https://dolibarr-web.onrender.com
+      - key: PHP_INI_DATE_TIMEZONE
+        value: Europe/Paris
+      - key: DOLI_INSTALL_AUTO
+        value: "1"
       - key: DOLI_NO_CSRF_CHECK
         value: "1"
     disks:
       - name: html
-        mountPath: /var/www/html
+        mountPath: /var/www/html/custom
         sizeGB: 1
       - name: documents
-        mountPath: /var/lib/dolibarr/documents
+        mountPath: /var/www/documents
         sizeGB: 1
-
-  - type: pserv
-    name: dolibarr-db
-    env: docker
-    dockerfilePath: ./dockerfiles/mariadb.Dockerfile
-    plan: free
-    autoDeploy: false
-    disk:
-      name: mariadb-data
-      mountPath: /var/lib/mysql
-      sizeGB: 1
