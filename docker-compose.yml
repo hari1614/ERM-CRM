@@ -1,0 +1,92 @@
+# services:
+#   mariadb:
+#     image: mariadb:11.8.2
+#     environment:
+#       MYSQL_ROOT_PASSWORD: rootpass
+#       MYSQL_DATABASE: dolibarr
+#       MYSQL_USER: doliuser
+#       MYSQL_PASSWORD: dolipass
+#     volumes:
+#       - ./dolibarr_mariadb:/var/lib/mysql
+#     networks:
+#       - dolibarr-net
+#     healthcheck:
+#       test: ["CMD-SHELL", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpass"]
+#       timeout: 5s
+#       retries: 10
+#       interval: 5s
+#       start_period: 10s
+
+#   web:
+#     image: dolibarr/dolibarr:21.0.1
+#     environment:
+#       DOLI_DB_HOST: mariadb
+#       DOLI_DB_USER: doliuser
+#       DOLI_DB_PASSWORD: dolipass
+#       DOLI_DB_NAME: dolibarr
+#       DOLI_ADMIN_LOGIN: admin
+#       DOLI_ADMIN_PASSWORD: adminpass
+#       DOLI_URL_ROOT: http://localhost:5076
+#       PHP_INI_DATE_TIMEZONE: Europe/Paris
+#       DOLI_INSTALL_AUTO: 1
+#       DOLI_NO_CSRF_CHECK: 1
+#     volumes:
+#       - ./dolibarr_html:/var/www/html/custom
+#       - ./dolibarr_documents:/var/www/documents
+#     ports:
+#       - "5076:80"
+#     depends_on:
+#       # mariadb:
+#       #   condition: service_healthy
+#     networks:
+#       - dolibarr-net
+
+# networks:
+#   dolibarr-net:
+#     driver: bridge
+
+version: "3.8"
+
+services:
+  mariadb:
+    image: mariadb:11.8.2
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: dolibarr
+      MYSQL_USER: doliuser
+      MYSQL_PASSWORD: dolipass
+    volumes:
+      - ./dolibarr_mariadb:/var/lib/mysql
+    networks:
+      - dolibarr-net
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -uroot -prootpass || exit 1"]
+      timeout: 5s
+      retries: 10
+      interval: 5s
+      start_period: 10s
+
+  web:
+    image: dolibarr/dolibarr:21.0.1
+    environment:
+      DOLI_DB_HOST: mariadb
+      DOLI_DB_USER: doliuser
+      DOLI_DB_PASSWORD: dolipass
+      DOLI_DB_NAME: dolibarr
+      DOLI_ADMIN_LOGIN: admin
+      DOLI_ADMIN_PASSWORD: adminpass
+      DOLI_URL_ROOT: http://localhost:5076
+      PHP_INI_DATE_TIMEZONE: Europe/Paris
+      DOLI_INSTALL_AUTO: 1
+      DOLI_NO_CSRF_CHECK: 1
+    volumes:
+      - ./dolibarr_html:/var/www/html/custom
+      - ./dolibarr_documents:/var/www/documents
+    ports:
+      - "5076:80"
+    networks:
+      - dolibarr-net
+
+networks:
+  dolibarr-net:
+    driver: bridge

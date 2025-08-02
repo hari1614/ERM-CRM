@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: dolibarr-web
+    env: docker
+    dockerfilePath: ./dockerfiles/web.Dockerfile
+    plan: free
+    envVars:
+      - key: DOLI_DB_HOST
+        value: dolibarr-db:3306
+      - key: DOLI_DB_NAME
+        value: dolibarr
+      - key: DOLI_DB_USER
+        value: dolibarr
+      - key: DOLI_DB_PASSWORD
+        value: dolibarr
+      - key: DOLI_NO_CSRF_CHECK
+        value: "1"
+    disks:
+      - name: html
+        mountPath: /var/www/html
+        sizeGB: 1
+      - name: documents
+        mountPath: /var/lib/dolibarr/documents
+        sizeGB: 1
+
+  - type: pserv
+    name: dolibarr-db
+    env: docker
+    dockerfilePath: ./dockerfiles/mariadb.Dockerfile
+    plan: free
+    autoDeploy: false
+    disk:
+      name: mariadb-data
+      mountPath: /var/lib/mysql
+      sizeGB: 1
