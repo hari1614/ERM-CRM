@@ -71,7 +71,7 @@ services:
     plan: free
     envVars:
       - key: DOLI_DB_HOST
-        value: dolibarr-db:3306
+        value: dolibarr-db:3306 
       - key: DOLI_DB_NAME
         value: dolibarr
       - key: DOLI_DB_USER
