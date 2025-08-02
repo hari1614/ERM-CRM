@@ -51,7 +51,7 @@ services:
       - key: DOLI_NO_CSRF_CHECK
         value: "1"
     domains:
-      - dolibarr-https://dolibarr-web.onrender.com
+      - https://dolibarr-web.onrender.com
 
   - type: pserv
     name: dolibarr-db
